@@ -3,6 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
+            
             @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ session('error') }}
@@ -10,7 +11,7 @@
               </div>
             @endif
             <form action="{{route('posts.store')}}" method="POST" enctype="multipart/form-data" class="d-grid gap-4">
-                @csrf
+            @csrf
                 <div class="form-group">
                     <label for="cover">Cover</label>
                     <input type="file" name="cover" class="form-control @error('cover') is-invalid @enderror" value="{{old('cover')}}" id="cover" required>
@@ -20,42 +21,56 @@
                     </div>
                     @enderror
                 </div>
-                <div class="form-group">
-                    <label for="title_id">Title ID</label>
-                    <input type="text" name="title_id" class="form-control @error('title_id') is-invalid @enderror" value="{{old('title_id')}}" required>
-                    @error('title_id')
-                    <div class="invalid-feedback">
-                        {{ $message }}    
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active px-5" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">ID</button>
+                        <button class="nav-link px-5" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">EN</button>
                     </div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="title_en">Title EN</label>
-                    <input type="text" name="title_en" class="form-control @error('title_en') is-invalid @enderror" value="{{old('title_en')}}" required>
-                    @error('title_en')
-                    <div class="invalid-feedback">
-                        {{ $message }}    
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="form-group">
+                            <label for="title_id">Title ID</label>
+                            <input type="text" name="title_id" class="form-control @error('title_id') is-invalid @enderror" value="{{old('title_id')}}" required>
+                            @error('title_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}    
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="desc_id">Description ID</label>
+                            <textarea name="desc_id" id="" cols="30" rows="10" class="summernote form-control @error('desc_id') is-invalid @enderror" required>{{old('desc_id')}}</textarea>
+                            @error('desc_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}    
+                            </div>
+                            @enderror
+                        </div>
                     </div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="desc_id">Description ID</label>
-                    <textarea name="desc_id" id="desc_id" cols="30" rows="10" class="form-control @error('desc_id') is-invalid @enderror" required>{{old('desc_id')}}</textarea>
-                    @error('desc_id')
-                    <div class="invalid-feedback">
-                        {{ $message }}    
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="form-group">
+                            <label for="title_en">Title EN</label>
+                            <input type="text" name="title_en" class="form-control @error('title_en') is-invalid @enderror" value="{{old('title_en')}}" required>
+                            @error('title_en')
+                            <div class="invalid-feedback">
+                                {{ $message }}    
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="desc_en">Description EN</label>
+                            <textarea name="desc_en" id="" cols="30" rows="10" class="summernote form-control @error('desc_en') is-invalid @enderror" required>{{old('desc_en')}}</textarea>
+                            @error('desc_en')
+                            <div class="invalid-feedback">
+                                {{ $message }}    
+                            </div>
+                            @enderror
+                        </div>
                     </div>
-                    @enderror
                 </div>
-                <div class="form-group">
-                    <label for="desc_en">Description EN</label>
-                    <textarea name="desc_en" id="desc_en" cols="30" rows="10" class="form-control @error('desc_en') is-invalid @enderror" required>{{old('desc_en')}}</textarea>
-                    @error('desc_en')
-                    <div class="invalid-feedback">
-                        {{ $message }}    
-                    </div>
-                    @enderror
-                </div>
+
                 <div class="form-group">
                     <label for="category">Category</label>
                     <select name="category" id="category" class="form-control @error('category') is-invalid @enderror" required>

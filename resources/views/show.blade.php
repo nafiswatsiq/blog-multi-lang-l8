@@ -23,6 +23,7 @@
         <meta property="twitter:image" content="{{ asset('storage/'.$post->cover) }}">
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -80,7 +81,9 @@
                         <div class="d-flex my-2">
                             <small class="text-muted">by {{ $post->user->name }} ・ {{ Carbon\Carbon::parse($post->created_at)->isoFormat('D MMMM Y'); }}</small>
                         </div>
-                        <p>{{ $post->desc }}</p>
+                        {{-- <div class="summernote">{{ $post->desc }}</div> --}}
+                        <div id="summernote"><?php echo $post->desc  ?></div>
+                        
                         <div class="card-footer bg-transparent d-flex mx-auto">
                             <a href="{{ route('category',$post->category->slug) }}" class="text-dark me-2">{{ $post->category->name }}</a>
                             <div class="d-flex ml-auto gap-2">
@@ -95,5 +98,7 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+        </script>
     </body>
 </html>

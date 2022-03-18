@@ -18,6 +18,9 @@
 
     {{-- @yield('styles') --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -100,6 +103,31 @@
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    {{-- <script src='https://cdn.tiny.cloud/1/1niqocgap8q8u4ipnx65fblxwaeg5825eogpjjbk29jwz4z8/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+    </script>
+    <script>
+      tinymce.init({
+        selector: '#mytextareaId',
+        plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+        height: 500,
+    });
+      tinymce.init({
+        selector: '#mytextareaEn',
+        plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+        height: 500,
+    });
+    </script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                height: 300,
+                minHeight: null,
+                maxHeight: null,
+                focus: true
+            });
+        });
+    </script>
     <script>
     $(document).ready(function() {
         $('.select2').select2({
