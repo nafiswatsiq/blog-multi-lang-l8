@@ -86,7 +86,6 @@ class PostController extends Controller
         }
         $post->save();
 
-
         $post->tags()->attach($request->tags);
 
         return redirect()->route('posts.index')->with('success', 'Data added successfully'); 
