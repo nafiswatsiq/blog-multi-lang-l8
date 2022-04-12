@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label for="desc">Description</label>
-                    <textarea name="desc" id="desc" cols="30" rows="10" class="form-control @error('desc') is-invalid @enderror" required>{{old('desc') ? old('desc') : $post->desc}}</textarea>
+                    <textarea name="desc" id="summernote" cols="30" rows="10" class="summernote form-control @error('desc') is-invalid @enderror" required>{{old('desc') ? old('desc') : $post->desc}}</textarea>
                     @error('desc')
                     <div class="invalid-feedback">
                         {{ $message }}    

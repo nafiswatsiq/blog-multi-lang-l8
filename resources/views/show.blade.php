@@ -73,9 +73,9 @@
         <div class="container my-5">
             <div class="row">
                 <div class="card border-0">
-                    <div class="d-flex justify-content-center">
+                    {{-- <div class="d-flex justify-content-center">
                         <img src="{{ asset('storage/'.$post->cover) }}" alt="" class="img-fluid" style="max-width: 500px;">
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                         <h1 class="card-title">{{ $post->title }}</h1>
                         <div class="d-flex my-2">

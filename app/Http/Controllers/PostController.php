@@ -78,11 +78,51 @@ class PostController extends Controller
 
         foreach (['id'] as $locale) {
             $post->translateOrNew($locale)->title = "$request->title_id";
-            $post->translateOrNew($locale)->desc = "$request->desc_id";
+
+            $content = $request->desc_id;
+            $dom = new \DomDocument();
+            $dom->loadHtml($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $imageFile = $dom->getElementsByTagName('imageFile');
+            foreach($imageFile as $item => $image){
+                $data = $img->getAttribute('src');
+                list($type, $data) = explode(';', $data);
+                list(, $data)      = explode(',', $data);
+                $imgeData = base64_decode($data);
+                $image_name= "/upload/" . time().$item.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $imgeData);
+                
+                $image->removeAttribute('src');
+                $image->setAttribute('src', $image_name);
+            }
+            $content = $dom->saveHTML();
+
+            $post->translateOrNew($locale)->desc = "$content";
+            // $post->translateOrNew($locale)->desc = "$request->desc_id";
         }
         foreach (['en'] as $locale) {
             $post->translateOrNew($locale)->title = "$request->title_en";
-            $post->translateOrNew($locale)->desc = "$request->desc_en";
+
+            $content = $request->desc_en;
+            $dom = new \DomDocument();
+            $dom->loadHtml($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+            $imageFile = $dom->getElementsByTagName('imageFile');
+            foreach($imageFile as $item => $image){
+                $data = $img->getAttribute('src');
+                list($type, $data) = explode(';', $data);
+                list(, $data)      = explode(',', $data);
+                $imgeData = base64_decode($data);
+                $image_name= "/upload/" . time().$item.'.png';
+                $path = public_path() . $image_name;
+                file_put_contents($path, $imgeData);
+                
+                $image->removeAttribute('src');
+                $image->setAttribute('src', $image_name);
+            }
+            $content = $dom->saveHTML();
+
+            $post->translateOrNew($locale)->desc = "$content";
+            // $post->translateOrNew($locale)->desc = "$request->desc_en";
         }
         $post->save();
 
