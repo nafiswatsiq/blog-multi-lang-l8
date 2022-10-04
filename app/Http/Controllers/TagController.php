@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
@@ -40,7 +41,7 @@ class TagController extends Controller
         //
         $tag = new Tag();
         $tag->name = $request->name;
-        $tag->slug = \Str::slug($request->name);
+        $tag->slug = Str::slug($request->name);
         $tag->keywords = $request->keywords;
         $tag->meta_desc = $request->meta_desc;
         $tag->save();
