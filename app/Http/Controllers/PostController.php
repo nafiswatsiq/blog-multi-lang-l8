@@ -8,6 +8,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Image;
 
 class PostController extends Controller
 {
@@ -62,10 +63,26 @@ class PostController extends Controller
         $post               = new Post();
 
         $cover              = $request->file('cover');
-        if($cover){
-            $cover_path     = $cover->store('images/blog', 'public');
-            $post->cover    = $cover_path;
+        $new_image = Image::make($cover->getRealPath());
+        if($new_image != null){
+            $image_width= $new_image->width();
+            $image_height= $new_image->height();
+            $new_width= 400;
+            $new_height= 350;
+ 
+            $new_image->resize($new_width, $new_height, function    ($constraint) {
+               $constraint->aspectRatio();
+            });
         }
+
+        $store_image = $new_image->save(public_path('images/blog' .$filename));
+        // dd($new_image);
+        $post->cover    = $store_image;
+
+        // if($cover){
+        //     $cover_path     = $cover->store('images/blog', 'public');
+        //     $post->cover    = $cover_path;
+        // }
         // $post->title        = $request->title;
         $post->slug         = \Str::slug($request->title_id);
         $post->user_id      = Auth::user()->id;
