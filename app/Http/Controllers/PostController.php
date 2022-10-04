@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Post;
+use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -60,13 +61,39 @@ class PostController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $post               = new Post();
 
+        $post               = new Post();
+        
         $cover              = $request->file('cover');
-        if($cover){
-            $cover_path     = $cover->store('images/blog', 'public');
-            $post->cover    = $cover_path;
+        $new_image = Image::make($cover->getRealPath());
+        if($new_image != null){
+            $image_width= $new_image->width();
+            $image_height= $new_image->height();
+            // dd($image_height, $image_width);
+            if($image_height > $image_width){
+                $new_height= 1024;
+                $new_width= 768;
+            }elseif($image_height < $image_width){
+                $new_height= 768;
+                $new_width= 1024;
+            }
+            
+            $new_image->resize($new_width, $new_height, function    ($constraint) {
+                $constraint->aspectRatio();
+            });
+            
+            $imageName = time().'.'.$cover->extension();
+    
+            $store_image = $new_image->save(public_path('storage/images/blog/' .$imageName));
+            // dd($new_image);
+            $post->cover    = 'images/blog/'.$imageName;
         }
+        
+
+        // if($cover){
+        //     $cover_path     = $cover->store('images/blog', 'public');
+        //     $post->cover    = $cover_path;
+        // }
         // $post->title        = $request->title;
         $post->slug         = Str::slug($request->title_id);
         $post->user_id      = Auth::user()->id;
@@ -85,7 +112,7 @@ class PostController extends Controller
             $dom->loadHtml($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             $imageFile = $dom->getElementsByTagName('imageFile');
             foreach($imageFile as $item => $image){
-                $data = $img->getAttribute('src');
+                $data = $image->getAttribute('src');
                 list($type, $data) = explode(';', $data);
                 list(, $data)      = explode(',', $data);
                 $imgeData = base64_decode($data);
@@ -109,7 +136,7 @@ class PostController extends Controller
             $dom->loadHtml($content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
             $imageFile = $dom->getElementsByTagName('imageFile');
             foreach($imageFile as $item => $image){
-                $data = $img->getAttribute('src');
+                $data = $image->getAttribute('src');
                 list($type, $data) = explode(';', $data);
                 list(, $data)      = explode(',', $data);
                 $imgeData = base64_decode($data);
